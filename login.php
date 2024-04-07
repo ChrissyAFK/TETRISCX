@@ -1,5 +1,17 @@
 <?php
 // Assuming you have a database connection established
+$servername = "server0800";
+$username = "your_username";
+$password = "your_password";
+$dbname = "users";
+
+// Create a connection
+$connection = mysqli_connect($servername, $username, $password, $dbname);
+
+// Check if the connection was successful
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Invalid username or password";
     }
 }
+
+// Close the connection
+mysqli_close($connection);
 ?>
 
 <!DOCTYPE html>
