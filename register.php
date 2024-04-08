@@ -16,9 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
 
     // Validate the form data (e.g., check for empty fields, validate email format, etc.)
+    // This is a placeholder - you should add your own validation here
+    if (empty($username) || empty($password) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die('Invalid form data');
+    }
 
     // Connect to the database
-    $dbHost = 'server0800';
+    $dbHost = 'localhost';
     $dbUser = 'your_database_username';
     $dbPass = 'your_database_password';
     $dbName = 'users';
@@ -34,40 +38,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
+    if ($stmt === false) {
+        die('Error preparing statement: ' . $conn->error);
+    }
+
     // Hash the password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Bind the parameters and execute the statement
-    $stmt->bind_param("sss", $username, $hashedPassword, $email);
-    if ($stmt->execute()) {
-        echo "Registration successful!";
-    } else {
-        echo "Error: " . $stmt->error;
+    // Bind the parameters to the SQL statement
+    $stmt->bind_param('sss', $username, $hashedPassword, $email);
+
+    // Execute the SQL statement
+    if ($stmt->execute() === false) {
+        die('Error executing statement: ' . $stmt->error);
     }
 
-    // Close the statement and the database connection
+    // Close the statement and the connection
     $stmt->close();
     $conn->close();
+
+    // Redirect the user to the login page
+    header('Location: login.php');
+    exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register Account</title>
+    <title>Register</title>
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="POST" action="register.php">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required><br>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br>
-
-        <label for="email">Email:</label>
-        <input type="email" name="email" required><br>
-
+    <form action="register.php" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
         <input type="submit" value="Register">
     </form>
 </body>
