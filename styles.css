@@ -1,0 +1,45 @@
+body {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    background-color: #6134db;
+    margin: 0;
+    padding: 0;
+}
+div {
+    background-color: #3c2b88;
+    margin: 0;
+    padding: 0;
+}
+a {
+    color: #d11717;
+    text-decoration: none;
+}
+h1 {
+    color: #856eec;
+    text-align: left;
+}
+.top-bar {
+    background-color: #3c2b88;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+button {
+    background-color: #856eec;
+    color: #3c2b88;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+}
+button:hover {
+    background-color: #3788a8;
+    color: #2e08d8;
+}
+.button-container {
+    text-align: right;
+
+}
