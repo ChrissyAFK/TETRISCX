@@ -22,11 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Connect to the database
-    $dbHost = 'localhost';
-    $dbUser = 'your_database_username';
-    $dbPass = 'your_database_password';
-    $dbName = 'users';
+    require_once __DIR__ . '/vendor/autoload.php';
 
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    
+    $servername = $_ENV['DB_SERVER'];
+    $username = $_ENV['DB_USERNAME'];
+    $password = $_ENV['DB_PASSWORD'];
+    $dbname = $_ENV['DB_NAME'];
     $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
     // Check if the connection was successful
@@ -64,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html>
+<link rel = "stylesheet" type = "text/css" href = "styles.css" /> 
 <head>
     <title>Register</title>
 </head>

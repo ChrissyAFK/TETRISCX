@@ -1,9 +1,14 @@
 <?php
 // Assuming you have a database connection established
-$servername = "server0800";
-$username = "your_username";
-$password = "your_password";
-$dbname = "users";
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$servername = $_ENV['DB_SERVER'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$dbname = $_ENV['DB_NAME'];
 
 // Create a connection
 $connection = mysqli_connect($servername, $username, $password, $dbname);
