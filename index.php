@@ -21,8 +21,8 @@ session_start();
             <button onclick="window.location.href='logout.php'">Logout</button>
             <?php
             // Check if the user is already logged in
-                if (isset($_SESSION['user_id'])) {
-                    echo '<div style="background-color: green;">Logged in</div>';
+                if (isset($_SESSION['username'])) {
+                    echo '<div style="background-color: green;">Logged in, welcome, </div> . $_SESSION['username']';
                 } else {
                     echo '<div style="background-color: red;">Not logged in</div>';
                 }
