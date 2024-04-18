@@ -26,7 +26,27 @@ session_start();
 </head>
 <body>
 <canvas width="320" height="640" id="game"></canvas>
+<div id='next-piece'></div>
+<button id="restartButton">Restart Game</button>
 <script>
+function restartGame() {
+  cancelAnimationFrame(rAF);  // Cancel the current animation frame
+  gameOver = false;            // Set the game over flag to false
+
+  // Reset the playfield
+  for (let row = -2; row < playfield.length; row++) {
+    for (let col = 0; col < playfield[row].length; col++) {
+      playfield[row][col] = 0;
+    }
+  }
+
+  // Get a new tetromino sequence
+  tetrominoSequence.length = 0;
+  tetromino = getNextTetromino();
+
+  // Start the game loop again
+  rAF = requestAnimationFrame(loop);
+}
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 
 // get a random integer between the range of [min,max]
@@ -67,7 +87,22 @@ function holdTetromino() {
 
   canHold = false;
 }
+function updateNextPieceDisplay() {
+  // Clear the current display
+  nextPieceDiv.innerHTML = '';
 
+  // Create a new div for each block in the next piece and append it to the display div
+  const nextPiece = tetrominos[tetrominoSequence[tetrominoSequence.length - 1]];
+  nextPiece.forEach(row => {
+    row.forEach(value => {
+      const div = document.createElement('div');
+      div.classList.add('block');
+      if (value) div.classList.add('filled');
+      nextPieceDiv.appendChild(div);
+    });
+    nextPieceDiv.appendChild(document.createElement('br'));
+  });
+}
 function getNextTetromino() {
   if (tetrominoSequence.length === 0) {
     generateSequence();
@@ -80,13 +115,14 @@ function getNextTetromino() {
   const row = name === 'I' ? -1 : -2;
 
   canHold = true;
-
+updateNextPieceDisplay();
   return {
     name: name,
     matrix: matrix,
+    col: col,
+    row: row
   };
 }
-
 
 // rotate an NxN matrix 90deg
 // @see https://codereview.stackexchange.com/a/186834
@@ -339,7 +375,7 @@ document.addEventListener('keydown', function(e) {
     placeTetromino();
   }
 });
-
+document.getElementById('restartButton').addEventListener('click', restartGame);
 // start the game
 rAF = requestAnimationFrame(loop);
 </script>
