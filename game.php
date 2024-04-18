@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html>
     <style>
@@ -25,7 +31,6 @@
     <?php
     // Function to generate a new Tetrimino (piece)
     function generatePiece() {
-        shuffle($shapes);
         $shapes = array(
             array(
                 array(1, 1),
@@ -56,6 +61,7 @@
             ),
         );   
         // Get a random shape from the array
+        shuffle($shapes);
         $randomShape = $shapes[rand(0, count($shapes) - 1)];
         
         return $randomShape;
