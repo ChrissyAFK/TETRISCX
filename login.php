@@ -53,6 +53,7 @@ mysqli_close($connection);
 
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="styles.css">
 <head>
     <title>Login Page</title>
 </head>
