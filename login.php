@@ -23,9 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the submitted username and password
     $username1 = $_POST['username'];
     $password1 = $_POST['password'];
+    // Unhash the password
+    $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
     // Query the database to check if the username and password match
-    $query = "SELECT * FROM accounts WHERE username = '$username1' AND password = '$password1'";
+    $query = "SELECT * FROM accounts WHERE username = '$username1' AND password = '$hashedPassword'";
     $result = mysqli_query($connection, $query);
 
     // Check if the query returned any rows
