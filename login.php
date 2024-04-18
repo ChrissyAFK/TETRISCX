@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verify the provided password with the hashed password
         if (password_verify($password1, $hashedPassword)) {
             // Password is correct, redirect to the home page
-            header('Location: home.php');
+            header('Location: index.html');
             exit;
         } else {
             // Password is incorrect, display an error message

@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 // Retrieve user information from the database
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM accounts";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
