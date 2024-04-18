@@ -49,7 +49,23 @@ function generateSequence() {
     tetrominoSequence.push(name);
   }
 }
+let heldTetromino = null;
+let canHold = true;
 
+function holdTetromino() {
+  if (!canHold) return;
+
+  if (heldTetromino) {
+    const temp = currentTetromino;
+    currentTetromino = heldTetromino;
+    heldTetromino = temp;
+  } else {
+    heldTetromino = currentTetromino;
+    currentTetromino = getNextTetromino();
+  }
+
+  canHold = false;
+}
 // get the next tetromino in the sequence
 function getNextTetromino() {
   if (tetrominoSequence.length === 0) {
@@ -64,6 +80,7 @@ function getNextTetromino() {
 
   // I starts on row 21 (-1), all others start on row 22 (-2)
   const row = name === 'I' ? -1 : -2;
+  canHold = true;
 
   return {
     name: name,      // name of the piece (L, O, etc.)
@@ -276,34 +293,10 @@ function loop() {
     }
   }
 }
-let heldTetromino = null;
 
-// hold the current tetromino
-function holdTetromino() {
-    if (heldTetromino) {
-        // swap the current tetromino with the held tetromino
-        const temp = tetromino;
-        tetromino = heldTetromino;
-        heldTetromino = temp;
-    } else {
-        // if no tetromino is held, take the next tetromino from the sequence
-        heldTetromino = getNextTetromino();
-    }
-
-    // reset the position of the tetromino
-    tetromino.row = tetromino.name === 'I' ? -1 : -2;
-    tetromino.col = playfield[0].length / 2 - Math.ceil(tetromino.matrix[0].length / 2);
-}
-
-// listen to keyboard events to hold the tetromino
+// listen to keyboard events to move the active tetromino
 document.addEventListener('keydown', function(e) {
-    if (gameOver) return;
-
-    // c key (hold)
-    if (e.which === 67) {
-        holdTetromino();
-    }
-});
+  if (gameOver) return;
 
   // left and right arrow keys (move)
   if (e.which === 37 || e.which === 39) {
