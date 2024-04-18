@@ -23,24 +23,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the submitted username and password
     $username1 = $_POST['username'];
     $password1 = $_POST['password'];
-    // Unhash the password
-    $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
-
     // Query the database to check if the username and password match
-    $query = "SELECT * FROM accounts WHERE username = '$username1' AND password = '$hashedPassword'";
+    $query = "SELECT * FROM accounts WHERE username = '$username1'";
     $result = mysqli_query($connection, $query);
-
-    // Check if the query returned any rows
     if (mysqli_num_rows($result) > 0) {
-        // Login successful, redirect to the home page
-        header('Location: home.php');
-        exit;
+        // Get the hashed password from the result
+        $row = mysqli_fetch_assoc($result);
+        $hashedPassword = $row['password'];
+    
+        // Verify the provided password with the hashed password
+        if (password_verify($password1, $hashedPassword)) {
+            // Password is correct, redirect to the home page
+            header('Location: home.php');
+            exit;
+        } else {
+            // Password is incorrect, display an error message
+            echo "Invalid username or password";
+        }
     } else {
-        // Login failed, display an error message
+        // Username not found, display an error message
         echo "Invalid username or password";
     }
-}
-
 // Close the connection
 mysqli_close($connection);
 ?>
