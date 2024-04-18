@@ -29,24 +29,6 @@ session_start();
 <div id='next-piece'></div>
 <button id="restartButton">Restart Game</button>
 <script>
-function restartGame() {
-  cancelAnimationFrame(rAF);  // Cancel the current animation frame
-  gameOver = false;            // Set the game over flag to false
-
-  // Reset the playfield
-  for (let row = -2; row < playfield.length; row++) {
-    for (let col = 0; col < playfield[row].length; col++) {
-      playfield[row][col] = 0;
-    }
-  }
-
-  // Get a new tetromino sequence
-  tetrominoSequence.length = 0;
-  tetromino = getNextTetromino();
-
-  // Start the game loop again
-  rAF = requestAnimationFrame(loop);
-}
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 
 // get a random integer between the range of [min,max]
@@ -377,6 +359,24 @@ for (let y = 0; y <= boardHeight; y++) {
 
 ctx.strokeStyle = 'white'; // Change the color as needed
 ctx.stroke();
+function restartGame() {
+  cancelAnimationFrame(rAF);  // Cancel the current animation frame
+  gameOver = false;            // Set the game over flag to false
+
+  // Reset the playfield
+  for (let row = -2; row < playfield.length; row++) {
+    for (let col = 0; col < playfield[row].length; col++) {
+      playfield[row][col] = 0;
+    }
+  }
+
+  // Get a new tetromino sequence
+  tetrominoSequence.length = 0;
+  tetromino = getNextTetromino();
+
+  // Start the game loop again
+  rAF = requestAnimationFrame(loop);
+}
 rAF = requestAnimationFrame(loop);
 </script>
 </body>
