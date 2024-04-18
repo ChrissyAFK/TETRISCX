@@ -240,10 +240,11 @@
 
             // Handle user input
             handleInput();
-
             // Display the game board
             echo displayBoard($board);
 
+            // Clear the game board
+            $board = array_fill(0, $boardHeight, array_fill(0, $boardWidth, 0));
             // Check if the current piece has reached the bottom of the board or collided with another piece 
             if (hasReachedBottom($board, $currentPiece) || hasCollision($board, $currentPiece)) {
                 // Generate a new piece
