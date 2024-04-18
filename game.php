@@ -335,7 +335,7 @@ document.addEventListener('keydown', function(e) {
     }
   }
 if (e.which === 90) {
-    for (let i = 0; i < cars.length; i++) {
+    for (let i = 0; i < 3; i++) {
         const matrix = rotate(tetromino.matrix);
         if (isValidMove(matrix, tetromino.row, tetromino.col)) {
             tetromino.matrix = matrix;
