@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +19,14 @@
             <button onclick="window.location.href='game.php'">Play</button>
             <button onclick="window.location.href='profile.php'">Profile</button>
             <button onclick="window.location.href='logout.php'">Logout</button>
+            <?php
+            // Check if the user is already logged in
+                if (isset($_SESSION['user_id'])) {
+                    echo '<div style="background-color: green;">Logged in</div>';
+                } else {
+                    echo '<div style="background-color: red;">Not logged in</div>';
+                }
+            ?>
         </div>
     </div>
     <div class="content">

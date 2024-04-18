@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Assuming you have a database connection established
 require_once __DIR__ . '/vendor/autoload.php';
 
