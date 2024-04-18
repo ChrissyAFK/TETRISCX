@@ -333,6 +333,13 @@ document.addEventListener('keydown', function(e) {
   if(e.which === 67) {
     holdTetromino();
   }
+  if (e.which === 32) {
+    while (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+      tetromino.row++;
+    }
+
+    placeTetromino();
+  }
 });
 
 // start the game
