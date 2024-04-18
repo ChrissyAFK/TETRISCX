@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Connect to the database
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -17,8 +17,12 @@ if ($conn->connect_error) {
 }
 
 // Retrieve user information from the database
-$sql = "SELECT * FROM accounts";
-$result = $conn->query($sql);
+$loggedInUser = $_SESSION['username']; // replace this with how you get the logged-in user
+$sql = "SELECT * FROM accounts WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $loggedInUser);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -35,9 +39,10 @@ if ($result->num_rows > 0) {
         echo "<br>";
     }
 } else {
-    echo "No users found.";
+    echo "No user found.";
 }
 
+$stmt->close();
 // Close the database connection
 $conn->close();
 
