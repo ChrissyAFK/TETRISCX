@@ -330,6 +330,9 @@ document.addEventListener('keydown', function(e) {
 
     tetromino.row = row;
   }
+  if(e.which === 67) {
+    holdTetromino();
+  }
 });
 
 // start the game
