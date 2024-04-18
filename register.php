@@ -31,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_ENV['DB_USERNAME'];
     $password = $_ENV['DB_PASSWORD'];
     $dbname = $_ENV['DB_NAME'];
-    $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
+    $conn = new mysqli($servername, $username, $password, $dbname);
     // Check if the connection was successful
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
@@ -50,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
     // Bind the parameters to the SQL statement
-    $stmt->bind_param('sss', $username1, $hashedPassword, $email);
-
+    $stmt->bind_param("sss", $username1, $hashedPassword, $email);
+    $stmt->execute();
     // Execute the SQL statement
     if ($stmt->execute() === false) {
         die('Error executing statement: ' . $stmt->error);
