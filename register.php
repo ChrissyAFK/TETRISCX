@@ -11,13 +11,13 @@ if (isset($_SESSION['user_id'])) {
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the form data
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username1 = $_POST['username'];
+    $password1 = $_POST['password'];
     $email = $_POST['email'];
 
     // Validate the form data (e.g., check for empty fields, validate email format, etc.)
     // This is a placeholder - you should add your own validation here
-    if (empty($username) || empty($password) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (empty($username1) || empty($password1) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die('Invalid form data');
     }
 
@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
     // Bind the parameters to the SQL statement
-    $stmt->bind_param('sss', $username, $hashedPassword, $email);
+    $stmt->bind_param('sss', $username1, $hashedPassword, $email);
 
     // Execute the SQL statement
     if ($stmt->execute() === false) {

@@ -21,11 +21,11 @@ if (!$connection) {
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the submitted username and password
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username1 = $_POST['username'];
+    $password1 = $_POST['password'];
 
     // Query the database to check if the username and password match
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE username = '$username1' AND password = '$password1'";
     $result = mysqli_query($connection, $query);
 
     // Check if the query returned any rows
