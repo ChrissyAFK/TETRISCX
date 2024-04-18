@@ -203,25 +203,23 @@
     function handleInput() {
         // TODO: Implement the logic to handle user input (e.g., arrow keys to move the piece)
         // This function should update the current piece based on the user input.
-        function handleInput() {
-            // Check if any arrow key is pressed
-            if (isset($_GET['key'])) {
-                $key = $_GET['key'];
+        // Check if any arrow key is pressed
+        if (isset($_GET['key'])) {
+            $key = $_GET['key'];
                 // Update the current piece based on the arrow key pressed
-                switch ($key) {
-                    case 'left':
+            switch ($key) {
+                case 'left':
                         // TODO: Move the piece to the left
-                        break;
-                    case 'right':
+                    break;
+                case 'right':
                         // TODO: Move the piece to the right
-                        break;
-                    case 'up':
-                        // TODO: Rotate the piece
-                        break;
-                    case 'down':
+                    break;
+                case 'up':
+                    // TODO: Rotate the piece
+                    break;
+                case 'down':
                         // TODO: Move the piece down
-                        break;
-                }
+                    break;
             }
         }
     }
