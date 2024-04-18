@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Username not found, display an error message
         echo "Invalid username or password";
     }
+}
 // Close the connection
 mysqli_close($connection);
 ?>
