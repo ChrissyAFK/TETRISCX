@@ -13,7 +13,7 @@ session_start();
   }
 
   body {
-    background: black;
+    background: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -276,10 +276,34 @@ function loop() {
     }
   }
 }
+let heldTetromino = null;
 
-// listen to keyboard events to move the active tetromino
+// hold the current tetromino
+function holdTetromino() {
+    if (heldTetromino) {
+        // swap the current tetromino with the held tetromino
+        const temp = tetromino;
+        tetromino = heldTetromino;
+        heldTetromino = temp;
+    } else {
+        // if no tetromino is held, take the next tetromino from the sequence
+        heldTetromino = getNextTetromino();
+    }
+
+    // reset the position of the tetromino
+    tetromino.row = tetromino.name === 'I' ? -1 : -2;
+    tetromino.col = playfield[0].length / 2 - Math.ceil(tetromino.matrix[0].length / 2);
+}
+
+// listen to keyboard events to hold the tetromino
 document.addEventListener('keydown', function(e) {
-  if (gameOver) return;
+    if (gameOver) return;
+
+    // c key (hold)
+    if (e.which === 67) {
+        holdTetromino();
+    }
+});
 
   // left and right arrow keys (move)
   if (e.which === 37 || e.which === 39) {
