@@ -22,7 +22,7 @@ session_start();
             <?php
             // Check if the user is already logged in
                 if (isset($_SESSION['username'])) {
-                    echo '<div style="background-color: green;">Logged in, welcome, </div> . $_SESSION['username']';
+                    echo '<div style="background-color: green;">Logged in</div>';
                 } else {
                     echo '<div style="background-color: red;">Not logged in</div>';
                 }
