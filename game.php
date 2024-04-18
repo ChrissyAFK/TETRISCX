@@ -334,7 +334,12 @@ document.addEventListener('keydown', function(e) {
       tetromino.matrix = matrix;
     }
   }
-
+if (e.which === 90) {
+    const matrix = rotate(tetromino.matrix);
+    if (isValidMove(matrix, tetromino.row, tetromino.col)) {
+        tetromino.matrix = matrix;
+    }
+    }
   // down arrow key (drop)
   if(e.which === 40) {
     const row = tetromino.row + 1;
