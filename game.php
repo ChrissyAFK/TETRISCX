@@ -1,11 +1,6 @@
 <?php
 // Function to generate a new Tetrimino (piece)
 function generatePiece() {
-    // TODO: Implement the logic to generate a new Tetrimino (piece)
-    // This function should return a 2D array representing the shape of the piece.
-    // You can use numbers to represent the blocks of the piece (e.g., 1 for a filled block, 0 for an empty block).
-    // Here's an example of how you can generate a random piece:
-    // Define the possible Tetrimino shapes
     shuffle($shapes);
     $shapes = array(
         array(
@@ -22,24 +17,20 @@ function generatePiece() {
         array(
             array(1, 1, 0),
             array(0, 1, 1)
-        );
+        ),
         array(
             array(0, 1, 1),
             array(1, 1, 0)
-        );
+        ),
         array(
             array(1, 0, 0),
             array(1, 1, 1)
-        );
+        ),
         array(
             array(0, 0, 1),
             array(1, 1, 1)
-        );
-        )
-    );
-
- 
-    
+        ),
+    );   
     // Get a random shape from the array
     $randomShape = $shapes[rand(0, count($shapes) - 1)];
     
