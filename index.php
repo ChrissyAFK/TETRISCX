@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+// Purpose: Home page of the website, displays information about the game and allows users to navigate to other pages
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +21,7 @@ session_start();
             <button onclick="window.location.href='profile.php'">Profile</button>
             <button onclick="window.location.href='logout.php'">Logout</button>
             <?php
+            session_start();
             // Check if the user is already logged in
                 if (isset($_SESSION['username'])) {
                     echo '<div style="background-color: green;">Logged in</div>';
