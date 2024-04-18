@@ -70,23 +70,6 @@ function generateSequence() {
   }
 }
 
-let heldTetromino = null;
-let canHold = true;
-
-function holdTetromino() {
-  if (!canHold) return;
-
-  if (heldTetromino) {
-    const temp = currentTetromino;
-    currentTetromino = heldTetromino;
-    heldTetromino = temp;
-  } else {
-    heldTetromino = currentTetromino;
-    currentTetromino = getNextTetromino();
-  }
-
-  canHold = false;
-}
 function updateNextPieceDisplay() {
   // Clear the current display
   nextPieceDiv.innerHTML = '';
@@ -111,16 +94,11 @@ function getNextTetromino() {
   const name = tetrominoSequence.pop();
   const matrix = tetrominos[name];
 
-  const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
-  const row = name === 'I' ? -1 : -2;
-
   canHold = true;
 updateNextPieceDisplay();
   return {
     name: name,
     matrix: matrix,
-    col: col,
-    row: row
   };
 }
 
@@ -377,6 +355,28 @@ document.addEventListener('keydown', function(e) {
 });
 document.getElementById('restartButton').addEventListener('click', restartGame);
 // start the game
+const canvas = document.getElementById('game-board');
+const ctx = canvas.getContext('2d');
+
+// Assuming your game board is 10 cells wide and 20 cells high
+const cellSize = 20; // Change this to the size of your cells
+const boardWidth = 10;
+const boardHeight = 20;
+
+// Draw vertical grid lines
+for (let x = 0; x <= boardWidth; x++) {
+  ctx.moveTo(x * cellSize, 0);
+  ctx.lineTo(x * cellSize, boardHeight * cellSize);
+}
+
+// Draw horizontal grid lines
+for (let y = 0; y <= boardHeight; y++) {
+  ctx.moveTo(0, y * cellSize);
+  ctx.lineTo(boardWidth * cellSize, y * cellSize);
+}
+
+ctx.strokeStyle = 'white'; // Change the color as needed
+ctx.stroke();
 rAF = requestAnimationFrame(loop);
 </script>
 </body>
