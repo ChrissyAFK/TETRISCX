@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password1 = $_POST['password'];
 
     // Query the database to check if the username and password match
-    $query = "SELECT * FROM users WHERE username = '$username1' AND password = '$password1'";
+    $query = "SELECT * FROM accounts WHERE username = '$username1' AND password = '$password1'";
     $result = mysqli_query($connection, $query);
 
     // Check if the query returned any rows
