@@ -1,2 +1,2 @@
 nothing here yet...
-go to tetriscx.xyz to play the game(if its there yet)
+go to tetriscx.xyz to play the game!
