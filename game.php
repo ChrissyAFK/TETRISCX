@@ -196,10 +196,8 @@ function placeTetromino() {
     else {
       row--;
     }
+    tetromino = getNextTetromino();
   }
-
-  tetromino = getNextTetromino();
-}
 
 // show the game over screen
 function showGameOver() {
