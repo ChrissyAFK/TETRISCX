@@ -194,8 +194,7 @@ function placeTetromino() {
             // handle the response from the server
         }
     });
-    }
-    else {
+    } else {
       row--;
     }
     tetromino = getNextTetromino();
