@@ -1,5 +1,20 @@
 <?php
 session_start();
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$host = $_ENV['DB_HOST'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$database = $_ENV['DB_DATABASE'];
+
+$connection = mysqli_connect($host, $username, $password, $database);
+
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -262,7 +277,34 @@ const colors = {
   'J': 'blue',
   'L': 'orange'
 };
+// check for line clears starting from the bottom and working our way up
+for (let row = playfield.length - 1; row >= 0; ) {
+    if (playfield[row].every(cell => !!cell)) {
 
+        // drop every row above this one
+        for (let r = row; r >= 0; r--) {
+            for (let c = 0; c < playfield[r].length; c++) {
+                playfield[r][c] = playfield[r-1][c];
+            }
+        }
+
+        // Increment the level value in the database
+        <?php
+        // Assuming you have already established a connection to the MySQL database
+        $levelIncrement = 0.01;
+        $linesCleared = 1; // Assuming only one line is cleared at a time
+        $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
+        $userId = $_SESSION['user_id'];
+
+        // Update the level value in the database
+        $query = "UPDATE users SET level = $newLevel WHERE id = $userId";
+        mysqli_query($connection, $query);
+        ?>
+    }
+    else {
+        row--;
+    }
+}
 let count = 0;
 let tetromino = getNextTetromino();
 let rAF = null;  // keep track of the animation frame so we can cancel it
