@@ -159,6 +159,8 @@ function isValidMove(matrix, cellRow, cellCol) {
 
 // place the tetromino on the playfield
 function placeTetromino() {
+    console.log(tetromino);
+    conole.log(playfield);
   for (let row = 0; row < tetromino.matrix.length; row++) {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
       if (tetromino.matrix[row][col]) {
