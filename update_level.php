@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -21,6 +22,6 @@ $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
 $userId = $_SESSION['username'];
 
 // Update the level value in the database
-$query = "UPDATE users SET level = $newLevel WHERE id = $username";
+$query = "UPDATE accounts SET level = $newLevel WHERE id = $username";
 mysqli_query($connection, $query);
 ?>
