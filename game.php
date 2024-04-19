@@ -185,8 +185,7 @@ function placeTetromino() {
           playfield[r][c] = playfield[r-1][c];
         }
       }
-    }
-    $.ajax({
+      $.ajax({
         url: 'update_level.php',
         type: 'post',
         data: { linesCleared: 1 },
