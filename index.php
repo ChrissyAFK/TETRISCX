@@ -41,7 +41,7 @@
     </div>
     <div class="footer">
         <p>Created by: Christopher Shen</p>
-        <a href = 'https://github.com/ChrissyAFK/TETRISCX'><i class="fa fa-github" style="font-size:36px">&#xf09b;</i></a>
+        <a href = 'https://github.com/ChrissyAFK/TETRISCX'><i class="fa fa-github" style="font-size:36px;color:#1b145c;"></i></a>
     </div>
 </body>
 </html>
