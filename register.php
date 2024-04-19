@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
-    
+
     $servername = $_ENV['DB_SERVER'];
     $username = $_ENV['DB_USERNAME'];
     $password = $_ENV['DB_PASSWORD'];
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Bind the parameters to the SQL statement
     $stmt->bind_param("sss", $username1, $hashedPassword, $email);
-    $stmt->execute();
+
     // Execute the SQL statement
     if ($stmt->execute() === false) {
         die('Error executing statement: ' . $stmt->error);
@@ -59,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Close the statement and the connection
     $stmt->close();
     $conn->close();
-
     // Redirect the user to the login page
     header('Location: login.php');
     exit;
