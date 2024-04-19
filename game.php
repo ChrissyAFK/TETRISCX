@@ -5,10 +5,10 @@ require 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$host = $_ENV['DB_HOST'];
+$host = $_ENV['DB_SERVER'];
 $username = $_ENV['DB_USERNAME'];
 $password = $_ENV['DB_PASSWORD'];
-$database = $_ENV['DB_DATABASE'];
+$database = $_ENV['DB_NAME'];
 
 $connection = mysqli_connect($host, $username, $password, $database);
 
@@ -185,13 +185,13 @@ function placeTetromino() {
       }
     }
     $.ajax({
-            url: 'update_level.php',
-            type: 'post',
-            data: { linesCleared: 1 },
-            success: function(response) {
-                // handle the response from the server
-            }
-        });
+        url: 'update_level.php',
+        type: 'post',
+        data: { linesCleared: 1 },
+        success: function(response) {
+            // handle the response from the server
+        }
+    });
     }
     else {
       row--;
