@@ -197,8 +197,8 @@ function placeTetromino() {
       row--;
     }
     tetromino = getNextTetromino();
-  }
-
+    }
+}
 // show the game over screen
 function showGameOver() {
   cancelAnimationFrame(rAF);
