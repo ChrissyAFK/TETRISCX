@@ -21,6 +21,6 @@ $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
 $userId = $_SESSION['username'];
 
 // Update the level value in the database
-$query = "UPDATE users SET level = $newLevel WHERE id = $userId";
+$query = "UPDATE users SET level = $newLevel WHERE id = $username";
 mysqli_query($connection, $query);
 ?>
