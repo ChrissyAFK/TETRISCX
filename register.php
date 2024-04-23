@@ -20,7 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username1) || empty($password1) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die('Invalid form data');
     }
-
+    if (!preg_match("/^[a-zA-Z0-9_]*$/", $username1)) {
+        die("Invalid username. Only alphanumeric characters and underscores are allowed.");
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match("/^[a-zA-Z0-9_@.]*$/", $email)) {
+        die("Invalid email. Only alphanumeric characters, underscores, @, and . are allowed.");
+    }
+    if (strlen($username1) > 15) {
+        die("Username too long. It should be 15 characters or less.");
+    }
+    if (strlen($email) > 50) {
+        die("Email too long. It should be 50 characters or less.");
+    }
     // Connect to the database
     require_once __DIR__ . '/vendor/autoload.php';
 
