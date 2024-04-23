@@ -18,19 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate the form data (e.g., check for empty fields, validate email format, etc.)
     // This is a placeholder - you should add your own validation here
     if (empty($username1) || empty($password1) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die('Invalid form data');
+        $_SESSION['error'] = "Invalid form data.";
+        header('Location: register.php');
     }
     if (!preg_match("/^[a-zA-Z0-9_]*$/", $username1)) {
-        die("Invalid username. Only alphanumeric characters and underscores are allowed.");
+        $_SESSION['error'] = "Invalid username. Only alphanumeric characters and underscores are allowed.";
+        header('Location: register.php');
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match("/^[a-zA-Z0-9_@.]*$/", $email)) {
-        die("Invalid email. Only alphanumeric characters, underscores, @, and . are allowed.");
+        $_SESSION['error'] = "Invalid email format.";
+        header('Location: register.php');
     }
     if (strlen($username1) > 15) {
-        die("Username too long. It should be 15 characters or less.");
+        $_SESSION['error'] = "Username too long. It should be 15 characters or less.";
+        header('Location: register.php');
     }
     if (strlen($email) > 50) {
-        die("Email too long. It should be 50 characters or less.");
+        $_SESSION['error'] = "Email too long. It should be 50 characters or less.";
+        header('Location: register.php');
     }
     // Connect to the database
     require_once __DIR__ . '/vendor/autoload.php';
