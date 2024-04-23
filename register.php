@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt === false) {
         die('Error preparing statement: ' . $conn->error);
     }
-
+    $username1 = htmlspecialchars($username1, ENT_QUOTES, 'UTF-8');
+    $password1 = htmlspecialchars($password1, ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
     // Hash the password
     $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
