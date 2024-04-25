@@ -16,7 +16,7 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "url": "http://www.tetriscx.xyz/",
-  "logo": "http:www.tetriscx.xyz/1200px-Tetris_logo.svg.png"
+  "logo": "http://www.tetriscx.xyz/1200px-Tetris_logo.svg.png"
 }
 </script>
 <body>
