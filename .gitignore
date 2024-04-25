@@ -1,2 +1,4 @@
 .env
 vendor/
+key.txt
+certificate.txt
