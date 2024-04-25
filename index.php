@@ -11,6 +11,14 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>TETRISCX</title>
 </head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "http://www.tetriscx.xyz/",
+  "logo": "http:www.tetriscx.xyz/1200px-Tetris_logo.svg.png"
+}
+</script>
 <body>
     <div class="top-bar">
         <h1>WELCOME TO TETRISCX</h1>
