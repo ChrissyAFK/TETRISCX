@@ -87,9 +87,9 @@ mysqli_close($connection);
             header("Cache-Control: no-cache, must-revalidate");
             header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
                 if (isset($_SESSION['username'])) {
-                    echo '<div style="background-color: green;">Logged in</div>';
+                    echo '<div class="login-status" style="background-color: green;">Logged in</div>';
                 } else {
-                    echo '<div style="background-color: red;">Not logged in</div>';
+                    echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
                 }
             ?>
         </div>
