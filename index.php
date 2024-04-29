@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
+  "@type": "Organization",
   "url": "http://www.tetriscx.xyz/",
   "logo": "http://www.tetriscx.xyz/1200px-Tetris_logo.svg.png"
 }

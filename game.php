@@ -23,6 +23,28 @@ if (!$connection) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="styles.css">
+<div class="top-bar">
+        <div class="button-container">
+            <button onclick="window.location.href='index.php'">Home</button>
+            <button onclick="window.location.href='login.php'">Login</button>
+            <button onclick="window.location.href='register.php'">Register</button>
+            <button onclick="window.location.href='leaderboard.php'">Leaderboard</button>
+            <button onclick="window.location.href='game.php'">Play</button>
+            <button onclick="window.location.href='profile.php'">Profile</button>
+            <button onclick="window.location.href='logout.php'">Logout</button>
+            <?php
+            session_start();
+            // Check if the user is already logged in
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+                if (isset($_SESSION['username'])) {
+                    echo '<div style="background-color: green;">Logged in</div>';
+                } else {
+                    echo '<div style="background-color: red;">Not logged in</div>';
+                }
+            ?>
+        </div>
+</div>
   <title>Game</title>
   <meta charset="UTF-8">
   <style>
