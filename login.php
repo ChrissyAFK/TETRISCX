@@ -72,6 +72,28 @@ mysqli_close($connection);
 <head>
     <title>Login Page</title>
 </head>
+<div class="top-bar">
+        <div class="button-container">
+            <button onclick="window.location.href='index.php'">Home</button>
+            <button onclick="window.location.href='login.php'">Login</button>
+            <button onclick="window.location.href='register.php'">Register</button>
+            <button onclick="window.location.href='leaderboard.php'">Leaderboard</button>
+            <button onclick="window.location.href='game.php'">Play</button>
+            <button onclick="window.location.href='profile.php'">Profile</button>
+            <button onclick="window.location.href='logout.php'">Logout</button>
+            <?php
+            session_start();
+            // Check if the user is already logged in
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+                if (isset($_SESSION['username'])) {
+                    echo '<div style="background-color: green;">Logged in</div>';
+                } else {
+                    echo '<div style="background-color: red;">Not logged in</div>';
+                }
+            ?>
+        </div>
+</div>
 <body>
     <h2>Login</h2>
     <form method="POST" action="login.php">
