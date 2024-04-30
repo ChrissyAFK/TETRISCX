@@ -202,12 +202,18 @@ function placeTetromino() {
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell)) {
 
-      // drop every row above this one
-      for (let r = row; r >= 0; r--) {
-        for (let c = 0; c < playfield[r].length; c++) {
-          playfield[r][c] = playfield[r-1][c];
-        }
+          // count how many lines are cleared
+    let linesCleared = 0;
+
+    // drop every row above this one
+    for (let r = row; r >= 0; r--) {
+      if (playfield[r].every(cell => !!cell)) {
+        linesCleared++;
       }
+      for (let c = 0; c < playfield[r].length; c++) {
+        playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
+      }
+    }
       $.ajax({
         url: 'update_level.php',
         type: 'post',
@@ -258,7 +264,7 @@ for (let row = -2; row < 20; row++) {
 }
 
 // how to draw each tetromino
-// @see https://tetris.fandom.com/wiki/SRS
+// https://tetris.fandom.com/wiki/SRS
 const tetrominos = {
   'I': [
     [0,0,0,0],
