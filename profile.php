@@ -32,11 +32,13 @@ if ($result->num_rows > 0) {
         // Add more fields as needed
 
         // Display user information
+        echo "<div class='user-info'>";
         echo "Username: " . $username . "<br>";
         echo "Games Played: " . $gamesPlayed . "<br>";
         echo "Level: " . $level . "<br>";
         // Add more fields as needed
         echo "<br>";
+        echo "</div>";
     }
 } else {
     echo "No user found.";

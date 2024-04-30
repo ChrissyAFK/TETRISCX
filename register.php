@@ -114,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 </div>
 <body>
+    <div class="register-form">
     <form action="register.php" method="post">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username"><br>
@@ -123,5 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="email" id="email" name="email"><br>
         <input type="submit" value="Register">
     </form>
+    </div>
 </body>
 </html>

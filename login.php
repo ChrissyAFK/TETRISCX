@@ -96,6 +96,7 @@ mysqli_close($connection);
 </div>
 <body>
     <h2>Login</h2>
+    <div class="login-form">
     <form method="POST" action="login.php">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
@@ -103,5 +104,6 @@ mysqli_close($connection);
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Login">
     </form>
+    </div>
 </body>
 </html>

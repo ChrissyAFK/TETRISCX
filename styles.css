@@ -60,3 +60,15 @@ button:hover {
     margin: 10px;
     padding: 10px;
 }
+.leaderboard {
+    margin-top: 50px;
+}
+.login-form {
+    margin-top: 50px;
+}
+.user-info {
+    margin-top: 50px;
+}
+.register-form {
+    margin-top: 50px;
+}

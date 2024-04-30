@@ -21,6 +21,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // Output the leaderboard
+    echo "<div class='leaderboard'>";
     echo "<h1>Leaderboard</h1>";
     echo "<table>";
     echo "<tr><th>Username</th><th>level</th></tr>";
@@ -32,6 +33,7 @@ if ($result->num_rows > 0) {
     }
     
     echo "</table>";
+    echo "</div>";
 } else {
     echo "No data found.";
 }
