@@ -66,7 +66,7 @@ if (!$connection) {
 </head>
 <body>
 <canvas width="320" height="640" id="game"></canvas>
-<canvas width="120" height="120" id="nextPiece"></canvas>
+<div id='next-piece'></div>
 <button id="restartButton">Restart Game</button>
 <!--THE FOLLOWING BASIC GAME SCRIPT WAS TAKEN FROM https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1 AND FURTHER BUILT UPON><!-->
 <script>
@@ -179,6 +179,7 @@ function isValidMove(matrix, cellRow, cellCol) {
 
   return true;
 }
+
 // place the tetromino on the playfield
 function placeTetromino() {
     console.log(tetromino);
@@ -195,7 +196,6 @@ function placeTetromino() {
         playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
       }
     }
-    updateNextPieceDisplay()
   }
 
   // check for line clears starting from the bottom and working our way up
