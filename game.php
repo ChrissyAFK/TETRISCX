@@ -182,8 +182,6 @@ function isValidMove(matrix, cellRow, cellCol) {
 
 // place the tetromino on the playfield
 function placeTetromino() {
-    console.log(tetromino);
-    console.log(playfield);
   for (let row = 0; row < tetromino.matrix.length; row++) {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
       if (tetromino.matrix[row][col]) {
@@ -199,34 +197,34 @@ function placeTetromino() {
   }
 
   // check for line clears starting from the bottom and working our way up
+  let linesCleared = 0; // move this line outside the loop
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell)) {
 
-          // count how many lines are cleared
-    let linesCleared = 0;
+      linesCleared++;
 
-    // drop every row above this one
-    for (let r = row; r >= 0; r--) {
-      if (playfield[r].every(cell => !!cell)) {
-        linesCleared++;
-      }
-      for (let c = 0; c < playfield[r].length; c++) {
-        playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
-      }
-    }
-      $.ajax({
-        url: 'update_level.php',
-        type: 'post',
-        data: { linesCleared: 1 },
-        success: function(response) {
-            // handle the response from the server
+      // drop every row above this one
+      for (let r = row; r >= 0; r--) {
+        for (let c = 0; c < playfield[r].length; c++) {
+          playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
         }
-    });
+      }
+      row = playfield.length - 1; // reset the row index to check for more lines
     } else {
       row--;
     }
-    tetromino = getNextTetromino();
-    }
+  }
+
+  if (linesCleared > 0) {
+    $.ajax({
+      url: 'update_level.php',
+      type: 'post',
+      data: { linesCleared: linesCleared },
+      success: function(response) {
+          // handle the response from the server
+      }
+    });
+  }
 }
 // show the game over screen
 function showGameOver() {
@@ -345,7 +343,7 @@ function loop() {
       count = 0;
 
       // place piece if it runs into anything
-      if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+      if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.0col)) {
         tetromino.row--;
         placeTetromino();
       }
