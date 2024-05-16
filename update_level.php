@@ -15,13 +15,15 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-// Assuming you have already established a connection to the MySQL database
+
 $levelIncrement = 0.01;
 $linesCleared = $_POST['lines_cleared'];
 $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
 $userId = $_SESSION['username'];
 
-// Update the level value in the database
-$query = "UPDATE accounts SET level = $newLevel WHERE id = $username";
-mysqli_query($connection, $query);
+// Update the level value in the database using prepared statements
+$stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE id = ?");
+$stmt->bind_param("ds", $newLevel, $userId);
+$stmt->execute();
+$stmt->close();
 ?>
