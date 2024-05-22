@@ -30,43 +30,16 @@
             <button onclick="window.location.href='profile.php'">Profile</button>
             <button onclick="window.location.href='logout.php'">Logout</button>
             <?php
-session_start();
-require_once __DIR__ . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$servername = $_ENV['DB_SERVERNAME'];
-$username = $_ENV['DB_USERNAME'];
-$password = $_ENV['DB_PASSWORD'];
-$dbname = $_ENV['DB_NAME'];
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if the user is already logged in
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-if (isset($_SESSION['username'])) {
-    $userId = $_SESSION['username'];
-    $stmt = $conn->prepare("SELECT level FROM accounts WHERE id = ?");
-    $stmt->bind_param("s", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    $level = $user['level'];
-    $progress = ($level - floor($level)) * 100;
-
-    echo '<div class="login-status" style="background-color: green;">Logged in</div>';
-    echo '<div class="level-indicator">Level: ' . floor($level) . '</div>';
-    echo '<div class="progress-bar"><div class="progress" style="width: ' . $progress . '%;"></div></div>';
-} else {
-    echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
-}
-?>
+            session_start();
+            // Check if the user is already logged in
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+                if (isset($_SESSION['username'])) {
+                    echo '<div class="login-status" style="background-color: green;">Logged in</div>';
+                } else {
+                    echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
+                }
+            ?>
         </div>
     </div>
     <div class="content">
