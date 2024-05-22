@@ -60,21 +60,30 @@ button:hover {
 .login-status {
     margin: 10px;
     padding: 10px;
-    z-index: 2;
+    z-index: 3;
+    position: relative;
 }
 .leaderboard {
     margin-top: 50px;
-    z-index: 2;
+    z-index: 3;
+    position: relative;
 }
 .login-form {
     margin-top: 50px;
-    z-index: 2;
+    z-index: 3;
+    position: relative;
 }
 .user-info {
     margin-top: 50px;
-    z-index: 2;
+    z-index: 3;
+    position:relative;
 }
 .register-form {
     margin-top: 50px;
+    z-index: 3;
+    position: relative;
+}
+.login-status {
     z-index: 2;
+    position: relative;
 }
