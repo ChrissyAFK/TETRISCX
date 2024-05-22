@@ -22,8 +22,8 @@ $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
 $userId = $_SESSION['username'];
 
 // Update the level value in the database using prepared statements
-$stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE id = ?");
-$stmt->bind_param("di", $newLevel, $userId);
+$stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
+$stmt->bind_param("ds", $newLevel, $userId);
 $stmt->execute();
 $stmt->close();
 ?>
