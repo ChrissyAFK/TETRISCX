@@ -185,8 +185,14 @@ function isValidMove(matrix, cellRow, cellCol) {
 // place the tetromino on the playfield
 
 function placeTetromino() {
-    console.log(tetromino);
-    console.log(playfield);
+    for (let y = 0; y < tetromino.matrix.length; ++y) {
+        for (let x = 0; x < tetromino.matrix[y].length; ++x) {
+            if (tetromino.matrix[y][x] !== 0) {
+                // lock the Tetromino in place by adding its cells to the playfield
+                playfield[y + tetromino.pos.y][x + tetromino.pos.x] = tetromino.matrix[y][x];
+            }
+        }
+    }
 
     // check for line clears starting from the bottom and working our way up
     let linesCleared = 0;
