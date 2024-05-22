@@ -68,6 +68,8 @@ if (!$connection) {
 <canvas width="320" height="640" id="game"></canvas>
 <div id='next-piece'></div>
 <button id="restartButton">Restart Game</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="game.php"></script>
 <!--THE FOLLOWING BASIC GAME SCRIPT WAS TAKEN FROM https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1 AND FURTHER BUILT UPON><!-->
 <script>
 function restartGame() {
