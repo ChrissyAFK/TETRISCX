@@ -181,52 +181,37 @@ function isValidMove(matrix, cellRow, cellCol) {
 }
 
 // place the tetromino on the playfield
+
 function placeTetromino() {
     console.log(tetromino);
     console.log(playfield);
-  for (let row = 0; row < tetromino.matrix.length; row++) {
-    for (let col = 0; col < tetromino.matrix[row].length; col++) {
-      if (tetromino.matrix[row][col]) {
 
-        // game over if piece has any part offscreen
-        if (tetromino.row + row < 0) {
-          return showGameOver();
-        }
-
-        playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
-      }
-    }
-  }
-
-  // check for line clears starting from the bottom and working our way up
-  for (let row = playfield.length - 1; row >= 0; ) {
-    if (playfield[row].every(cell => !!cell)) {
-
-          // count how many lines are cleared
+    // check for line clears starting from the bottom and working our way up
     let linesCleared = 0;
+    for (let row = playfield.length - 1; row >= 0; row--) {
+        if (playfield[row].every(cell => !!cell)) {
+            linesCleared++;
 
-    // drop every row above this one
-    for (let r = row; r >= 0; r--) {
-      if (playfield[r].every(cell => !!cell)) {
-        linesCleared++;
-      }
-      for (let c = 0; c < playfield[r].length; c++) {
-        playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
-      }
+            // drop every row above this one
+            for (let r = row; r >= 0; r--) {
+                for (let c = 0; c < playfield[r].length; c++) {
+                    playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
+                }
+            }
+
+            // since we just removed a line, we need to repeat the check for the current row
+            row++;
+        }
     }
-      $.ajax({
+
+    $.ajax({
         url: 'update_level.php',
         type: 'post',
-        data: { linesCleared: 1 },
+        data: { linesCleared: linesCleared },
         success: function(response) {
             // handle the response from the server
         }
     });
-    } else {
-      row--;
-    }
-    tetromino = getNextTetromino();
-    }
 }
 // show the game over screen
 function showGameOver() {
