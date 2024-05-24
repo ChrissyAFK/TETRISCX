@@ -138,7 +138,7 @@ function getNextTetromino() {
   const matrix = tetrominos[name];
 
   // I and O start centered, all others start in left-middle
-  const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
+  const col = math.floor(playfield[0].length / 2) - Math.ceil(matrix[0].length / 2);
 
   // I starts on row 21 (-1), all others start on row 22 (-2)
   const row = name === 'I' ? -1 : -2;
@@ -189,7 +189,12 @@ function placeTetromino() {
         for (let x = 0; x < tetromino.matrix[y].length; ++x) {
             if (tetromino.matrix[y][x] !== 0) {
                 // lock the Tetromino in place by adding its cells to the playfield
-                playfield[y + tetromino.pos.y][x + tetromino.pos.x] = tetromino.matrix[y][x];
+                const playfieldRow = y + tetromino.row;
+                const playfieldcol = x + tetromino.col;
+                if (playfieldRow >= 0 && playfieldRow < playfield.length && playfieldCol >0 && playfieldCol < playield[0].length) {}
+                  playfield[playfieldRow][playfieldCol] = tetromino.matrix[y][x];
+            } else {
+              console.error("Invalid index: playfieldRow = ${playfieldRow}, playfieldCol = ${playfieldCol}")
             }
         }
     }
