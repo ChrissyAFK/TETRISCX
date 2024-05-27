@@ -206,6 +206,11 @@ function placeTetromino() {
 
     console.log("Lines cleared:", linesCleared); // Log the lines cleared
 
+    // Skip the AJAX request if no lines were cleared
+    if (linesCleared === 0) {
+        return;
+    }
+
     $.ajax({
         url: 'update_level.php',
         type: 'post',
