@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password1, $hashedPassword)) {
             // Password is correct, redirect to the home page
             $_SESSION['username'] = $username1;
+            $_SESSION["level"] = $level;
             header('Location: index.php');
             exit;
         } else {
@@ -58,9 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Close the statement
     $stmt->close();
 }
-$_SESSION["username"] = $username1; // The username of the logged in user
-$_SESSION["level"] = $level; // The level of the logged in user
-// Close the connection
 mysqli_close($connection);
 ?>
 
