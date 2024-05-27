@@ -189,21 +189,24 @@ function placeTetromino() {
   for (let row = 0; row < tetromino.matrix.length; row++) {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
       if (tetromino.matrix[row][col]) {
-
-        // game over if piece has any part offscreen
+        // Game over if piece has any part offscreen
         if (tetromino.row + row < 0) {
           return showGameOver();
         }
 
         playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
-
-        // Check if the line is full
-        if (playfield[tetromino.row + row].every(cell => !!cell)) {
-          linesCleared++;
-          playfield.splice(tetromino.row + row, 1);
-          playfield.unshift(new Array(playfield[0].length).fill(0));
-        }
       }
+    }
+  }
+
+  // Check for cleared lines
+  for (let row = playfield.length - 1; row >= 0;) {
+    if (playfield[row].every(cell => !!cell)) {
+      linesCleared++;
+      playfield.splice(row, 1);
+      playfield.unshift(new Array(playfield[0].length).fill(0));
+    } else {
+      row--;
     }
   }
 
@@ -215,7 +218,11 @@ function placeTetromino() {
       // handle the response from the server
     }
   });
+
+  // Generate a new tetromino
+  tetromino = getNextTetromino();
 }
+
 // show the game over screen
 function showGameOver() {
   cancelAnimationFrame(rAF);
