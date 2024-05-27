@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Close the statement
     $stmt->close();
 }
-$_SESSION["username"] = $username; // The username of the logged in user
+$_SESSION["username"] = $username1; // The username of the logged in user
 $_SESSION["level"] = $level; // The level of the logged in user
 // Close the connection
 mysqli_close($connection);
