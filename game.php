@@ -138,7 +138,7 @@ function getNextTetromino() {
   const matrix = tetrominos[name];
 
   // I and O start centered, all others start in left-middle
-  const col = math.floor(playfield[0].length / 2) - Math.ceil(matrix[0].length / 2);
+  const col = Math.floor(playfield[0].length / 2) - Math.ceil(matrix[0].length / 2);
 
   // I starts on row 21 (-1), all others start on row 22 (-2)
   const row = name === 'I' ? -1 : -2;
