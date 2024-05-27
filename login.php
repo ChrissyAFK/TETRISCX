@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password1, $hashedPassword)) {
             // Password is correct, redirect to the home page
             $_SESSION['username'] = $username1;
-            $_SESSION["level"] = $level;
+            $_SESSION["level"] = $row["level"];
+            // Log username and level for debugging
+            error_log("Username: " . $username1 . ", Level: " . $_SESSION["level"]);
             header('Location: index.php');
             exit;
         } else {
