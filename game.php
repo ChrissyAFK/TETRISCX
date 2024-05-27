@@ -209,6 +209,7 @@ function placeTetromino() {
     // Skip the AJAX request if no lines were cleared
     if (linesCleared === 0) {
         return;
+        tetromino = getNextTetromino();
     }
 
     $.ajax({
@@ -222,6 +223,7 @@ function placeTetromino() {
             console.error("Error:", error);
         }
     });
+    tetromino = getNextTetromino();
 }
 
 // show the game over screen
