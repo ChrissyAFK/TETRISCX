@@ -185,38 +185,19 @@ function isValidMove(matrix, cellRow, cellCol) {
 // place the tetromino on the playfield
 
 function placeTetromino() {
-    for (let y = 0; y < tetromino.matrix.length; ++y) {
-        for (let x = 0; x < tetromino.matrix[y].length; ++x) {
-            if (tetromino.matrix[y][x] !== 0) {
-                // lock the Tetromino in place by adding its cells to the playfield
-                const playfieldRow = y + tetromino.row;
-                const playfieldcol = x + tetromino.col;
-                if (playfieldRow >= 0 && playfieldRow < playfield.length && playfieldCol >0 && playfieldCol < playield[0].length) {}
-                  playfield[playfieldRow][playfieldCol] = tetromino.matrix[y][x];
-            } else {
-              console.error("Invalid index: playfieldRow = ${playfieldRow}, playfieldCol = ${playfieldCol}")
-            }
+  for (let row = 0; row < tetromino.matrix.length; row++) {
+    for (let col = 0; col < tetromino.matrix[row].length; col++) {
+      if (tetromino.matrix[row][col]) {
+
+        // game over if piece has any part offscreen
+        if (tetromino.row + row < 0) {
+          return showGameOver();
         }
+
+        playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
+      }
     }
-
-    // check for line clears starting from the bottom and working our way up
-    let linesCleared = 0;
-    for (let row = playfield.length - 1; row >= 0; row--) {
-        if (playfield[row].every(cell => !!cell)) {
-            linesCleared++;
-
-            // drop every row above this one
-            for (let r = row; r >= 0; r--) {
-                for (let c = 0; c < playfield[r].length; c++) {
-                    playfield[r][c] = r - linesCleared >= 0 ? playfield[r - linesCleared][c] : null;
-                }
-            }
-
-            // since we just removed a line, we need to repeat the check for the current row
-            row++;
-        }
-    }
-
+  }
     $.ajax({
         url: 'update_level.php',
         type: 'post',
