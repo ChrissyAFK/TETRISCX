@@ -19,17 +19,31 @@ if ($conn->connect_error) {
 if (isset($_POST['lines_cleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
     $levelIncrement = 0.01;
     $linesCleared = (int)$_POST['lines_cleared'];  // Ensure lines_cleared is an integer
+
+    // Debugging output
+    error_log("Lines cleared: $linesCleared");
+    error_log("Current level: " . $_SESSION['level']);
+    
     $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
     $userId = $_SESSION['username'];
+
+    // Debugging output
+    error_log("New level: $newLevel");
+    error_log("User ID: $userId");
 
     // Update the level value in the database using prepared statements
     $stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
     if ($stmt) {
         $stmt->bind_param("ds", $newLevel, $userId);
         $stmt->execute();
-        if ($stmt->affected_rows === 0) {
-            // Handle the case where no rows were updated, if necessary
+        
+        // Debugging output
+        if ($stmt->affected_rows > 0) {
+            error_log("Level updated successfully for user $userId");
+        } else {
+            error_log("No rows affected. Update might have failed or no change was made.");
         }
+        
         $stmt->close();
     } else {
         die("Prepared statement failed: " . $conn->error);
