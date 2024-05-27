@@ -27,35 +27,35 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
     error_log("Lines cleared: $linesCleared");
     error_log("Current level: $currentLevel");
     error_log("Username: $username");
-
+    // Fetch the current level from the database
+    $stmt = $conn->prepare("SELECT level FROM accounts WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $currentLevel = (float)$row['level'];
     // Calculate the new level
     $newLevel = $currentLevel + ($levelIncrement * $linesCleared);
 
     error_log("New level: $newLevel");
-
-    $stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
-    if ($stmt) {
-        $stmt->bind_param("ds", $newLevel, $username);
-        $stmt->execute();
-        
-        if ($stmt->affected_rows > 0) {
-            // Update the session variable
-            $_SESSION['level'] = $newLevel;
-            echo json_encode(['status' => 'success', 'newLevel' => $newLevel]);
-        } else {
-            error_log("No rows affected. Update might have failed or no change was made.");
-            echo json_encode(['status' => 'error', 'message' => 'No rows affected. Update might have failed or no change was made.']);
-        }
-        
-        $stmt->close();
-    } else {
-        error_log('Prepared statement failed: ' . $conn->error);
-        echo json_encode(['status' => 'error', 'message' => 'Prepared statement failed: ' . $conn->error]);
-    }
-} else {
-    error_log('Required data not set. linesCleared: ' . isset($_POST['linesCleared']) . ', level: ' . isset($_SESSION['level']) . ', username: ' . isset($_SESSION['username']));
-    echo json_encode(['status' => 'error', 'message' => 'Required data not set.']);
 }
-
-$conn->close();
+    $updateStmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
+if ($updateStmt) {
+    $updateStmt->bind_param("ds", $newLevel, $username);
+    $updateStmt->execute();
+    
+    if ($updateStmt->affected_rows > 0) {
+        // Update the session variable
+        $_SESSION['level'] = $newLevel;
+        echo json_encode(['status' => 'success', 'newLevel' => $newLevel]);
+    } else {
+        error_log("No rows affected. Update might have failed or no change was made.");
+        echo json_encode(['status' => 'error', 'message' => 'No rows affected. Update might have failed or no change was made.']);
+    }
+    
+    $updateStmt->close();
+} else {
+    error_log('Prepared statement failed: ' . $conn->error);
+    echo json_encode(['status' => 'error', 'message' => 'Prepared statement failed: ' . $conn->error]);
+}
 ?>
