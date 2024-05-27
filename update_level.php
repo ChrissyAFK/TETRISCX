@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 header('Content-Type: application/json');
-// Check if POST data and session variables are set
+
 if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
     $levelIncrement = 0.05;
     $linesCleared = (int)$_POST['linesCleared'];
@@ -25,18 +25,21 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
     error_log("Lines cleared: $linesCleared");
     error_log("Current level: " . $_SESSION['level']);
     
+    // Calculate the new level
     $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
-    $userId = $_SESSION['username'];
+    $username = $_SESSION['username'];
 
     error_log("New level: $newLevel");
-    error_log("User ID: $userId");
+    error_log("Username: $username");
 
     $stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
     if ($stmt) {
-        $stmt->bind_param("ds", $newLevel, $userId);
+        $stmt->bind_param("ds", $newLevel, $username);
         $stmt->execute();
         
         if ($stmt->affected_rows > 0) {
+            // Update the session variable
+            $_SESSION['level'] = $newLevel;
             echo json_encode(['status' => 'success', 'newLevel' => $newLevel]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No rows affected. Update might have failed or no change was made.']);
