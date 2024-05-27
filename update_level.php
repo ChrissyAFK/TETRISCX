@@ -17,7 +17,6 @@ if ($conn->connect_error) {
 }
 
 header('Content-Type: application/json');
-
 // Check if POST data and session variables are set
 if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
     $levelIncrement = 0.01;
