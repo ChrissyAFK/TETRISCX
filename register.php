@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO accounts (username, password, email) VALUES (0, 0, 0, 0)";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
