@@ -184,44 +184,41 @@ function isValidMove(matrix, cellRow, cellCol) {
 
 // place the tetromino on the playfield
 function placeTetromino() {
-  let linesCleared = 0; // Define linesCleared
+    let linesCleared = 0;
 
-  for (let row = 0; row < tetromino.matrix.length; row++) {
-    for (let col = 0; col < tetromino.matrix[row].length; col++) {
-      if (tetromino.matrix[row][col]) {
-        // Game over if piece has any part offscreen
-        if (tetromino.row + row < 0) {
-          return showGameOver();
+    for (let row = 0; row < tetromino.matrix.length; row++) {
+        for (let col = 0; col < tetromino.matrix[row].length; col++) {
+            if (tetromino.matrix[row][col]) {
+                if (tetromino.row + row < 0) {
+                    return showGameOver();
+                }
+
+                playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
+
+                if (playfield[tetromino.row + row].every(cell => !!cell)) {
+                    linesCleared++;
+                    playfield.splice(tetromino.row + row, 1);
+                    playfield.unshift(new Array(playfield[0].length).fill(0));
+                }
+            }
         }
-
-        playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
-      }
     }
-  }
 
-  // Check for cleared lines
-  for (let row = playfield.length - 1; row >= 0;) {
-    if (playfield[row].every(cell => !!cell)) {
-      linesCleared++;
-      playfield.splice(row, 1);
-      playfield.unshift(new Array(playfield[0].length).fill(0));
-    } else {
-      row--;
-    }
-  }
+    console.log("Lines cleared:", linesCleared); // Log the lines cleared
 
-  $.ajax({
-    url: 'update_level.php',
-    type: 'post',
-    data: { linesCleared: linesCleared },
-    success: function(response) {
-      // handle the response from the server
-    }
-  });
-
-  // Generate a new tetromino
-  tetromino = getNextTetromino();
+    $.ajax({
+        url: 'update_level.php',
+        type: 'post',
+        data: { linesCleared: linesCleared },
+        success: function(response) {
+            console.log("Server response:", response);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
 }
+
 
 // show the game over screen
 function showGameOver() {
