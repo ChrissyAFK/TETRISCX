@@ -208,17 +208,18 @@ function placeTetromino() {
 
     // Skip the AJAX request if no lines were cleared
     if (linesCleared > 0) {
-        $.ajax({
-            url: 'update_level.php',
-            type: 'post',
-            data: { linesCleared: linesCleared },
-            success: function(response) {
-                console.log("Server response:", response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
+      $.ajax({
+        url: 'update_level.php',
+        type: 'post',
+        data: { linesCleared: linesCleared, username: '<?php echo $_SESSION["username"]; ?>',  level: '<?php echo $_SESSION["level"]; ?>'},
+        success: function(response) {
+            console.log("Server response:", response);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
+
     }
 
     // Fetch the next tetromino
