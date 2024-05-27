@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['lines_cleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
-    $levelIncrement = 0.01;
+    $levelIncrement = 1;
     $linesCleared = (int)$_POST['lines_cleared'];  // Ensure lines_cleared is an integer
 
     // Debugging output
