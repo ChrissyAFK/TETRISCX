@@ -21,16 +21,17 @@ header('Content-Type: application/json');
 if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
     $levelIncrement = 0.05;
     $linesCleared = (int)$_POST['linesCleared'];
-
-    error_log("Lines cleared: $linesCleared");
-    error_log("Current level: " . $_SESSION['level']);
-    
-    // Calculate the new level
-    $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
+    $currentLevel = (float)$_SESSION['level'];
     $username = $_SESSION['username'];
 
-    error_log("New level: $newLevel");
+    error_log("Lines cleared: $linesCleared");
+    error_log("Current level: $currentLevel");
     error_log("Username: $username");
+
+    // Calculate the new level
+    $newLevel = $currentLevel + ($levelIncrement * $linesCleared);
+
+    error_log("New level: $newLevel");
 
     $stmt = $conn->prepare("UPDATE accounts SET level = ? WHERE username = ?");
     if ($stmt) {
@@ -42,11 +43,13 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
             $_SESSION['level'] = $newLevel;
             echo json_encode(['status' => 'success', 'newLevel' => $newLevel]);
         } else {
+            error_log("No rows affected. Update might have failed or no change was made.");
             echo json_encode(['status' => 'error', 'message' => 'No rows affected. Update might have failed or no change was made.']);
         }
         
         $stmt->close();
     } else {
+        error_log('Prepared statement failed: ' . $conn->error);
         echo json_encode(['status' => 'error', 'message' => 'Prepared statement failed: ' . $conn->error]);
     }
 } else {
