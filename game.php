@@ -219,7 +219,6 @@ function placeTetromino() {
     });
 }
 
-
 // show the game over screen
 function showGameOver() {
   cancelAnimationFrame(rAF);

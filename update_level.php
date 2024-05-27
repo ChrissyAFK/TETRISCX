@@ -18,18 +18,17 @@ if ($conn->connect_error) {
 
 header('Content-Type: application/json');
 
+// Check if POST data and session variables are set
 if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSION['username'])) {
     $levelIncrement = 0.01;
     $linesCleared = (int)$_POST['linesCleared'];
 
-    // Debugging output
     error_log("Lines cleared: $linesCleared");
     error_log("Current level: " . $_SESSION['level']);
     
     $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
     $userId = $_SESSION['username'];
 
-    // Debugging output
     error_log("New level: $newLevel");
     error_log("User ID: $userId");
 
@@ -49,6 +48,7 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
         echo json_encode(['status' => 'error', 'message' => 'Prepared statement failed: ' . $conn->error]);
     }
 } else {
+    error_log('Required data not set. linesCleared: ' . isset($_POST['linesCleared']) . ', level: ' . isset($_SESSION['level']) . ', username: ' . isset($_SESSION['username']));
     echo json_encode(['status' => 'error', 'message' => 'Required data not set.']);
 }
 
