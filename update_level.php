@@ -25,7 +25,7 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
     error_log("Lines cleared: $linesCleared");
     error_log("Current level: " . $_SESSION['level']);
     
-    $newLevel = $_SESSION['level'] + ($levelIncrement * $linesCleared);
+    $newLevel = (float)$_SESSION['level'] + ($levelIncrement * $linesCleared);
     $userId = $_SESSION['username'];
 
     error_log("New level: $newLevel");
