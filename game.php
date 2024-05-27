@@ -207,22 +207,21 @@ function placeTetromino() {
     console.log("Lines cleared:", linesCleared); // Log the lines cleared
 
     // Skip the AJAX request if no lines were cleared
-    if (linesCleared === 0) {
-        return;
-        tetromino = getNextTetromino();
+    if (linesCleared > 0) {
+        $.ajax({
+            url: 'update_level.php',
+            type: 'post',
+            data: { linesCleared: linesCleared },
+            success: function(response) {
+                console.log("Server response:", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
     }
 
-    $.ajax({
-        url: 'update_level.php',
-        type: 'post',
-        data: { linesCleared: linesCleared },
-        success: function(response) {
-            console.log("Server response:", response);
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", error);
-        }
-    });
+    // Fetch the next tetromino
     tetromino = getNextTetromino();
 }
 
