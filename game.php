@@ -333,7 +333,13 @@ function loop() {
       }
     }
   }
-
+context.strokeStyle = "white";
+context.lineWidth = 0.5;
+for (let row = 0; row < 20; row++) {
+  for (let col = 0; col < 10; col++) {
+    context.strokeRect(col * grid, row * grid, grid, grid);
+  }
+}
   // draw the active tetromino
   if (tetromino) {
 
