@@ -52,7 +52,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
+    $username1 = htmlspecialchars($username1, ENT_QUOTES, 'UTF-8');
+    $password1 = htmlspecialchars($password1, ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+        // Prepare a SQL statement to check if the username already exists
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username1);
+    $stmt->execute();
 
+    // Get the result of the query
+    $result = $stmt->get_result();
+
+    // If the username already exists, redirect back to the registration page with an error message
+    if ($result->num_rows > 0) {
+        $_SESSION['error'] = "Username already exists.";
+        header('Location: register.php');
+        exit;
+    }
+    // Close the statement
+    $stmt->close();
     // Prepare the SQL statement
     $sql = "INSERT INTO accounts (username, password, email, level, rating, games_played, lines_cleared) VALUES (?, ?, ?, 0, 0, 0, 0)";
     $stmt = $conn->prepare($sql);
@@ -60,9 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt === false) {
         die('Error preparing statement: ' . $conn->error);
     }
-    $username1 = htmlspecialchars($username1, ENT_QUOTES, 'UTF-8');
-    $password1 = htmlspecialchars($password1, ENT_QUOTES, 'UTF-8');
-    $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
     // Hash the password
     $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
