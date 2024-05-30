@@ -46,6 +46,36 @@
         <p>Play the classic game of Tetris with a twist! Compete against other players to see who can get the highest score!</p>
         <p>Register an account to start playing and see where you rank on the leaderboard!</p>
         <p>Good luck and have fun!</p>
+        <p>Controls:</p>
+        <t>
+            <tr>
+                <td>Left Arrow</td>
+                <td>Move piece left</td>
+            </tr>
+            <tr>
+                <td>Right Arrow</td>
+                <td>Move piece right</td>
+            </tr>
+            <tr>
+                <td>Down Arrow</td>
+                <td>Move piece down</td>
+            </tr>
+            <tr>
+                <td>Up Arrow</td>
+                <td>Rotate piece clockwise</td>
+            </tr>
+            <tr>
+                <td>Z</td>
+                <td>Rotate piece counter-clockwise</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>Rotate piece 180 degrees</td>
+            <tr>
+                <td>Space</td>
+                <td>Instant drop</td>
+            </tr>
+        </t>
     </div>
     <div class="footer">
         <p>Created by: Christopher Shen</p>
