@@ -47,7 +47,7 @@
         <p>Register an account to start playing and see where you rank on the leaderboard!</p>
         <p>Good luck and have fun!</p>
         <p>Controls:</p>
-        <t>
+        <table>
             <th>
                 <td>Key</td>
                 <td>Action</td>
@@ -79,7 +79,7 @@
                 <td>Space</td>
                 <td>Instant drop</td>
             </tr>
-        </t>
+        </table>
     </div>
     <div class="footer">
         <p>Created by: Christopher Shen</p>
