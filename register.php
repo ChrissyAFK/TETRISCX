@@ -15,28 +15,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password1 = $_POST['password'];
     $email = $_POST['email'];
 
-    // Validate the form data (e.g., check for empty fields, validate email format, etc.)
-    // This is a placeholder - you should add your own validation here
+    // Validate the form data
     if (empty($username1) || empty($password1) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Invalid form data.";
         header('Location: register.php');
+        exit;
     }
     if (!preg_match("/^[a-zA-Z0-9_]*$/", $username1)) {
         $_SESSION['error'] = "Invalid username. Only alphanumeric characters and underscores are allowed.";
         header('Location: register.php');
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match("/^[a-zA-Z0-9_@.]*$/", $email)) {
-        $_SESSION['error'] = "Invalid email format.";
-        header('Location: register.php');
+        exit;
     }
     if (strlen($username1) > 15) {
         $_SESSION['error'] = "Username too long. It should be 15 characters or less.";
         header('Location: register.php');
+        exit;
     }
     if (strlen($email) > 50) {
         $_SESSION['error'] = "Email too long. It should be 50 characters or less.";
         header('Location: register.php');
+        exit;
     }
+
     // Connect to the database
     require_once __DIR__ . '/vendor/autoload.php';
 
@@ -48,14 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_ENV['DB_PASSWORD'];
     $dbname = $_ENV['DB_NAME'];
     $conn = new mysqli($servername, $username, $password, $dbname);
+
     // Check if the connection was successful
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
-    $username1 = htmlspecialchars($username1, ENT_QUOTES, 'UTF-8');
-    $password1 = htmlspecialchars($password1, ENT_QUOTES, 'UTF-8');
-    $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-        // Prepare a SQL statement to check if the username already exists
+
+    // Prepare a SQL statement to check if the username already exists
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->bind_param("s", $username1);
     $stmt->execute();
@@ -69,8 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: register.php');
         exit;
     }
+
     // Close the statement
     $stmt->close();
+
     // Prepare the SQL statement
     $sql = "INSERT INTO accounts (username, password, email, level, rating, games_played, lines_cleared) VALUES (?, ?, ?, 0, 0, 0, 0)";
     $stmt = $conn->prepare($sql);
@@ -78,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt === false) {
         die('Error preparing statement: ' . $conn->error);
     }
+
     // Hash the password
     $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
 
@@ -92,10 +94,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Close the statement and the connection
     $stmt->close();
     $conn->close();
+
     // Redirect the user to the login page
     header('Location: login.php');
     exit;
 }
+
+// Display any error message
 if (isset($_SESSION['error'])) {
     echo '<p class="error">' . $_SESSION['error'] . '</p>';
     unset($_SESSION['error']);  // clear the error message
@@ -120,15 +125,12 @@ if (isset($_SESSION['error'])) {
             <button onclick="window.location.href='profile.php'">Profile</button>
             <button onclick="window.location.href='logout.php'">Logout</button>
             <?php
-            session_start();
             // Check if the user is already logged in
-            header("Cache-Control: no-cache, must-revalidate");
-            header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-                if (isset($_SESSION['username'])) {
-                    echo '<div class="login-status" style="background-color: green;">Logged in</div>';
-                } else {
-                    echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
-                }
+            if (isset($_SESSION['username'])) {
+                echo '<div class="login-status" style="background-color: green;">Logged in</div>';
+            } else {
+                echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
+            }
             ?>
         </div>
 </div>
