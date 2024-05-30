@@ -35,7 +35,7 @@ if (isset($_POST['linesCleared']) && isset($_SESSION['level']) && isset($_SESSIO
     $row = $result->fetch_assoc();
     $currentLevel = (float)$row['level'];
     // Calculate the new level
-    $newLevel = $currentLevel + ($levelIncrement * $linesCleared);
+    $newLevel = round($currentLevel + ($levelIncrement * $linesCleared), 2);
 
     error_log("New level: $newLevel");
 }
