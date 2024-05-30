@@ -126,6 +126,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo '<div class="login-status" style="background-color: red;">Not logged in</div>';
                 }
             ?>
+            <?php
+                if (isset($_SESSION['error'])) {
+                    echo '<p class="error">' . $_SESSION['error'] . '</p>';
+                    unset($_SESSION['error']);  // clear the error message
+                }
+            ?>
         </div>
 </div>
 <body>
