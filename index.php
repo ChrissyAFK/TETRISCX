@@ -48,6 +48,10 @@
         <p>Good luck and have fun!</p>
         <p>Controls:</p>
         <t>
+            <th>
+                <td>Key</td>
+                <td>Action</td>
+            </th>
             <tr>
                 <td>Left Arrow</td>
                 <td>Move piece left</td>
