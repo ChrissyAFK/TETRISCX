@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare a SQL statement to check if the username already exists
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM accounts WHERE username = ?");
     $stmt->bind_param("s", $username1);
     $stmt->execute();
 
