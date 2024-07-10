@@ -14,6 +14,12 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);  // clear the error message
 }
 
+
+// Display any error message
+if (isset($_SESSION['error'])) {
+    echo '<p class="error">' . $_SESSION['error'] . '</p>';
+    unset($_SESSION['error']);  // clear the error message
+}
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the form data
