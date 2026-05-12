@@ -3,15 +3,11 @@
 // Used by all pages to render the top bar and manage auth state.
 // ============================================================
 
-/**
- * Initialize the top navigation bar with buttons and login status.
- * Call this on every page after the DOM is ready.
- */
 function initNavbar() {
-  const navbar = document.getElementById('navbar');
+  var navbar = document.getElementById('navbar');
   if (!navbar) return;
 
-  const pages = [
+  var pages = [
     { label: 'Home', href: 'index.html' },
     { label: 'Login', href: 'login.html' },
     { label: 'Register', href: 'register.html' },
@@ -21,20 +17,18 @@ function initNavbar() {
     { label: 'Logout', href: '#', id: 'btn-logout' }
   ];
 
-  let html = '<div class="button-container">';
-  pages.forEach(p => {
-    const idAttr = p.id ? ` id="${p.id}"` : '';
-    html += `<button${idAttr} onclick="window.location.href='${p.href}'">${p.label}</button>`;
+  var html = '<div class="button-container">';
+  pages.forEach(function(p) {
+    var idAttr = p.id ? ' id="' + p.id + '"' : '';
+    html += '<button' + idAttr + ' onclick="window.location.href=\'' + p.href + '\'">' + p.label + '</button>';
   });
 
-  // Login status indicator (updated by checkAuth)
   html += '<div id="login-status" class="login-status" style="background-color: red;">Not logged in</div>';
   html += '</div>';
 
   navbar.innerHTML = html;
 
-  // Attach logout handler
-  const logoutBtn = document.getElementById('btn-logout');
+  var logoutBtn = document.getElementById('btn-logout');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -43,16 +37,10 @@ function initNavbar() {
   }
 }
 
-/**
- * Check current auth state and update the navbar status indicator.
- */
-async function checkAuth() {
-  const statusEl = document.getElementById('login-status');
+function updateLoginStatus(loggedIn) {
+  var statusEl = document.getElementById('login-status');
   if (!statusEl) return;
-
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (session) {
+  if (loggedIn) {
     statusEl.textContent = 'Logged in';
     statusEl.style.backgroundColor = 'green';
   } else {
@@ -61,43 +49,59 @@ async function checkAuth() {
   }
 }
 
-/**
- * Sign out and redirect to homepage.
- */
+async function checkAuth() {
+  if (typeof supabase === 'undefined') return;
+  try {
+    var _a = await supabase.auth.getSession();
+    var session = _a.data.session;
+    updateLoginStatus(!!session);
+  } catch (e) {
+    // supabase not configured yet — status remains "Not logged in"
+  }
+}
+
 async function handleLogout() {
+  if (typeof supabase === 'undefined') return;
   await supabase.auth.signOut();
   window.location.href = 'index.html';
 }
 
-/**
- * Redirect to login page if user is not authenticated.
- * Call this on pages that require auth.
- */
 async function requireAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
+  if (typeof supabase === 'undefined') {
     window.location.href = 'login.html';
     return null;
   }
-  return session;
+  try {
+    var _a = await supabase.auth.getSession();
+    var session = _a.data.session;
+    if (!session) {
+      window.location.href = 'login.html';
+      return null;
+    }
+    return session;
+  } catch (e) {
+    window.location.href = 'login.html';
+    return null;
+  }
 }
 
-// Listen for auth state changes (login/logout in another tab, etc.)
-supabase.auth.onAuthStateChange((event, session) => {
-  const statusEl = document.getElementById('login-status');
-  if (!statusEl) return;
+// Listen for auth state changes
+if (typeof supabase !== 'undefined') {
+  try {
+    supabase.auth.onAuthStateChange(function(event, session) {
+      updateLoginStatus(!!session);
+    });
+  } catch (e) {}
+}
 
-  if (session) {
-    statusEl.textContent = 'Logged in';
-    statusEl.style.backgroundColor = 'green';
-  } else {
-    statusEl.textContent = 'Not logged in';
-    statusEl.style.backgroundColor = 'red';
-  }
-});
+// Initialize immediately (scripts are at bottom of body, DOM is ready)
+initNavbar();
+checkAuth();
 
-// Init navbar and check auth on page load
-document.addEventListener('DOMContentLoaded', function() {
-  initNavbar();
-  checkAuth();
-});
+// Fallback in case DOM wasn't ready yet
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    initNavbar();
+    checkAuth();
+  });
+}
