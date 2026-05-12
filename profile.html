@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Your Profile — TETRISCX</title>
+</head>
+<body>
+    <div class="top-bar" id="navbar"></div>
+
+    <div class="content">
+        <div id="profile-content" class="user-info">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Created by: Christopher Shen</p>
+        <a href="https://github.com/ChrissyAFK/TETRISCX"><i class="fa fa-github" style="font-size:36px;color:#1b145c;"></i></a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function loadProfile() {
+            const session = await requireAuth();
+            if (!session) return;
+
+            const { data: profile, error } = await supabase
+                .from('profiles')
+                .select('username, level, games_played, lines_cleared, rating')
+                .eq('id', session.user.id)
+                .single();
+
+            const container = document.getElementById('profile-content');
+
+            if (error || !profile) {
+                container.innerHTML = '<p>No profile found. Have you played a game yet?</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <p>Username: ${escapeHtml(profile.username)}</p>
+                <p>Games Played: ${profile.games_played}</p>
+                <p>Level: ${profile.level}</p>
+                <p>Lines Cleared: ${profile.lines_cleared}</p>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+</html>

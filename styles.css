@@ -83,7 +83,3 @@ button:hover {
     z-index: 3;
     position: relative;
 }
-.login-status {
-    z-index: 2;
-    position: relative;
-}

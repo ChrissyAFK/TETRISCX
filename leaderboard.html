@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Leaderboard — TETRISCX</title>
+</head>
+<body>
+    <div class="top-bar" id="navbar"></div>
+
+    <div class="content">
+        <div id="leaderboard-content" class="leaderboard">
+            <h1>Leaderboard</h1>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Created by: Christopher Shen</p>
+        <a href="https://github.com/ChrissyAFK/TETRISCX"><i class="fa fa-github" style="font-size:36px;color:#1b145c;"></i></a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function loadLeaderboard() {
+            const { data: profiles, error } = await supabase
+                .from('profiles')
+                .select('username, level')
+                .order('level', { ascending: false });
+
+            const container = document.getElementById('leaderboard-content');
+
+            if (error) {
+                container.innerHTML = '<p>Failed to load leaderboard.</p>';
+                return;
+            }
+
+            if (!profiles || profiles.length === 0) {
+                container.innerHTML = '<h1>Leaderboard</h1><p>No players yet.</p>';
+                return;
+            }
+
+            let html = '<h1>Leaderboard</h1><table>';
+            html += '<tr><th>Username</th><th>Level</th></tr>';
+
+            profiles.forEach(p => {
+                html += `<tr><td>${escapeHtml(p.username)}</td><td>${p.level}</td></tr>`;
+            });
+
+            html += '</table>';
+            container.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadLeaderboard);
+    </script>
+</body>
+</html>

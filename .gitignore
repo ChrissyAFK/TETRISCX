@@ -2,3 +2,4 @@
 vendor/
 key.txt
 certificate.txt
+node_modules/

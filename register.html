@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Register — TETRISCX</title>
+</head>
+<body>
+    <div class="top-bar" id="navbar"></div>
+
+    <div class="content">
+        <h2>Register</h2>
+        <div id="error-message" style="color: #ff6b6b; margin-bottom: 10px; display: none;"></div>
+        <div class="register-form">
+            <form id="register-form">
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" maxlength="50" required><br>
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" maxlength="15" required><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" minlength="6" required><br>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Created by: Christopher Shen</p>
+        <a href="https://github.com/ChrissyAFK/TETRISCX"><i class="fa fa-github" style="font-size:36px;color:#1b145c;"></i></a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('error-message');
+
+            // Validate username
+            if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                errorEl.textContent = 'Invalid username. Only alphanumeric characters and underscores are allowed.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            if (username.length > 15) {
+                errorEl.textContent = 'Username too long. It should be 15 characters or less.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            if (email.length > 50) {
+                errorEl.textContent = 'Email too long. It should be 50 characters or less.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { username }
+                }
+            });
+
+            if (error) {
+                errorEl.textContent = error.message;
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // If email confirmation is enabled, tell the user to check email.
+            // If disabled (recommended for this app), the user is immediately confirmed.
+            if (data.user && data.user.identities && data.user.identities.length === 0) {
+                errorEl.textContent = 'This email is already registered.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

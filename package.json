@@ -1,0 +1,9 @@
+{
+  "name": "tetriscx",
+  "version": "1.0.0",
+  "description": "Tetris game with leaderboard — static site deployed on Vercel with Supabase backend",
+  "private": true,
+  "scripts": {
+    "build": "echo 'No build step — static site'"
+  }
+}
